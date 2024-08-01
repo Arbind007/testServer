@@ -7,7 +7,9 @@ app.use(express.json());
 
 
 app.post("/", function (req, res) {
-  console.log(req.body);
+  var data = req.body;
+  console.log(data);
+  res.send(`Data received:\Data: ${data}`);
   res.end();
 });
 
