@@ -5,17 +5,17 @@ const app = express();
 app.use(express.urlencoded());
 app.use(express.json());
 
-
+var data;
 app.post("/", function (req, res) {
-  var data = req.body;
+  data = req.body;
   console.log(data);
-  res.send(`Data received:\Data: ${data}`);
   res.end();
 });
 
 
 app.get("/", function (req, res) {
     res.send("Hi");
+    res.send(`Data received:\Data: ${data}`);
 });
 
 
