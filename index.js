@@ -13,7 +13,7 @@ mongoose.connect(process.env.MONGODB_CONNECTION_STRING)
 .catch((err) => console.error('Could not connect to MongoDB...', err));
 
 const dataSchema = new mongoose.Schema({
-    content: String,
+    content: mongoose.Schema.Types.Mixed,
     createdAt: {
         type: Date,
         default: Date.now
@@ -30,6 +30,7 @@ app.post("/", async (req, res) => {
         console.log('Data saved:', data);
         res.status(201).send('Data saved');
     } catch (error) {
+        console.log(req.data);
         console.error('Error saving data:', error);
         res.status(500).send('Internal Server Error');
     }
@@ -61,7 +62,7 @@ app.get("/", async (req, res) => {
   try {
       const allData = await Data.find();
       res.send(`
-          <h1>All Data</h1>
+          <h1>Data received from Okta Workflow Endpoint</h1>
           <table border="1" cellpadding="10" cellspacing="0">
               <thead>
                   <tr>
@@ -75,7 +76,7 @@ app.get("/", async (req, res) => {
                   ${allData.map(item => `
                       <tr id="row-${item._id}">
                           <td>${item._id}</td>
-                          <td>${item.content}</td>
+                          <td><pre>${JSON.stringify(item.content, null, 2)}</pre></td>
                           <td>${item.createdAt.toLocaleString()}</td>
                           <td>
                               <button onclick="deleteData('${item._id}')">Delete</button>
@@ -83,7 +84,7 @@ app.get("/", async (req, res) => {
                       </tr>`).join('')}
               </tbody>
           </table>
-          <button onclick="deleteAllData()" style="margin-top: 20px; background-color: red; color: white;">Delete All Data</button>
+          <!-- <button onclick="deleteAllData()" style="margin-top: 20px; background-color: red; color: white;">Delete All Data</button> -->
 
           <script>
               function deleteData(id) {
