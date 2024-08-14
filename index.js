@@ -25,7 +25,7 @@ const Data = mongoose.model('Data', dataSchema);
 
 app.post("/", async (req, res) => {
     try {
-        const data = new Data({ content: req.body.content });
+        const data = new Data({ content: req.body });
         await data.save();
         console.log('Data saved:', data);
         res.status(201).send('Data saved');
