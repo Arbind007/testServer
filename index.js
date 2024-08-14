@@ -89,7 +89,7 @@ app.get("/", async (req, res) => {
                       </tr>`).join('')}
               </tbody>
           </table>
-          <!-- <button onclick="deleteAllData()" style="margin-top: 20px; background-color: red; color: white;">Delete All Data</button> -->
+          <button onclick="deleteAllData()" style="margin-top: 20px; background-color: red; color: white;">Delete All Data</button>
 
           <script>
               function deleteData(id) {
