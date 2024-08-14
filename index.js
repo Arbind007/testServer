@@ -16,7 +16,12 @@ const dataSchema = new mongoose.Schema({
     content: mongoose.Schema.Types.Mixed,
     createdAt: {
         type: Date,
-        default: Date.now
+        
+        default: () => {
+          const now = new Date();
+          const istOffset = 5.5 * 60 * 60 * 1000;
+          return new Date(now.getTime() + istOffset);
+      }
     }
 });
 
