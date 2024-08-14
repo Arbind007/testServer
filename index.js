@@ -73,21 +73,47 @@ app.get("/", async (req, res) => {
               </thead>
               <tbody>
                   ${allData.map(item => `
-                      <tr>
+                      <tr id="row-${item._id}">
                           <td>${item._id}</td>
                           <td>${item.content}</td>
                           <td>${item.createdAt.toLocaleString()}</td>
                           <td>
-                              <form action="/delete/${item._id}" method="POST" onsubmit="return confirm('Are you sure you want to delete this data?');">
-                                  <button type="submit">Delete</button>
-                              </form>
+                              <button onclick="deleteData('${item._id}')">Delete</button>
                           </td>
                       </tr>`).join('')}
               </tbody>
           </table>
-          <form action="/deleteAll" method="POST" onsubmit="return confirm('Are you sure you want to delete all data?');">
-              <button type="submit" style="margin-top: 20px; background-color: red; color: white;">Delete All Data</button>
-          </form>
+          <button onclick="deleteAllData()" style="margin-top: 20px; background-color: red; color: white;">Delete All Data</button>
+
+          <script>
+              function deleteData(id) {
+                  if (confirm('Are you sure you want to delete this data?')) {
+                      fetch('/delete/' + id, {
+                          method: 'DELETE'
+                      })
+                      .then(response => {
+                          if (response.ok) {
+                              document.getElementById('row-' + id).remove();
+                          }
+                      })
+                      .catch(error => console.error('Error:', error));
+                  }
+              }
+
+              function deleteAllData() {
+                  if (confirm('Are you sure you want to delete all data?')) {
+                      fetch('/deleteAll', {
+                          method: 'DELETE'
+                      })
+                      .then(response => {
+                          if (response.ok) {
+                              document.querySelectorAll('tbody tr').forEach(row => row.remove());
+                          }
+                      })
+                      .catch(error => console.error('Error:', error));
+                  }
+              }
+          </script>
       `);
   } catch (error) {
       console.error('Error retrieving data:', error);
