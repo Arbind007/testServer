@@ -39,7 +39,7 @@ app.get("/", async (req, res) => {
   try {
       const allData = await Data.find();
       res.send(`
-          <h1>Data received from Okta Endpoint</h1>
+          <h1>Data received from Okta Workflow Endpoint</h1>
           <table border="1" cellpadding="10" cellspacing="0">
               <thead>
                   <tr>
