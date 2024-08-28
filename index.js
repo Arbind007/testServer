@@ -65,7 +65,7 @@ app.delete("/deleteAll", async (req, res) => {
 
 app.get("/", async (req, res) => {
   try {
-      const allData = await Data.find();
+      const allData = await Data.find().sort({ createdAt: -1 });
       res.send(`
           <h1>Data received from Okta Workflow Endpoint</h1>
           <table border="1" cellpadding="10" cellspacing="0">
